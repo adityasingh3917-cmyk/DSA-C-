@@ -1,0 +1,53 @@
+class Solution {
+public:
+    bool robinKarp(string text,string pat) {
+        int n = text.length();
+        int m = pat.length();
+
+        if(n < m) return false;
+
+        int ph =0,th=0,power=1;
+
+        int base =26;
+        int mod = 101;
+
+        for(int i=0;i<m-1;i++){
+            power =(power * base) % mod;
+        }
+        for(int i=0;i<m;i++){
+            ph = (ph * base + (pat[i] - 'a')) % mod;
+            th = (th * base + (text[i] - 'a'))% mod;
+        }
+        
+        for(int i=0;i<=n-m;i++){
+            if(ph == th && text.substr(i,m) == pat){
+                return true;
+            }
+            if(i < n - m){
+                th = (th - (text[i] - 'a') * power) % mod;
+                if(th < 0) th += mod;
+                th = (th * base + (text[i+m] - 'a')) % mod;
+            }
+        }
+        return false;
+        
+    }
+    int repeatedStringMatch(string a, string b){
+        string temp =a;
+        int count  =1;
+
+        while(temp.length() < b.length()){
+            temp += a;
+            count++;
+        }
+        if(robinKarp(temp,b)){
+            return count;
+        }
+        temp += a;
+
+        if(robinKarp(temp,b)){
+            return count + 1;
+        }
+        return -1;
+    }
+};
