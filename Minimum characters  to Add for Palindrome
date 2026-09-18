@@ -1,0 +1,29 @@
+class Solution {
+  public:
+    int minChar(string &s) {
+        // code here
+        int size=s.size();
+        string rev=s;
+        reverse(rev.begin(),rev.end());
+        s +='$';
+        s +=rev;
+        int pre=0,suf=1,n=s.size();
+        vector<int>lps(n,0);
+        
+        while(suf < s.size()){
+            if(s[pre]==s[suf]){
+                lps[suf]=pre+1;
+                pre++;
+                suf++;
+            }else{
+                if(pre==0){
+                    suf++;
+                }else{
+                    pre=lps[pre-1];
+                }
+            }
+        }
+        return size-(lps[n-1]);
+        
+    }
+};
