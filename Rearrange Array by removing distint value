@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<int> rearrangeArray(vector<int>& nums) {
+        map<int,int>freq;
+        for(int x : nums){
+            freq[x]++;
+        }
+        vector<int> ans;
+
+        while(!freq.empty()){
+            vector<int> toErase;
+            for(auto &[x,count] : freq){
+                ans.push_back(x);
+                count--;
+
+                if(count==0){
+                    toErase.push_back(x);
+                }
+            }
+            for(int x : toErase){
+                freq.erase(x);
+            }
+        }
+        return ans;
+        
+    }
+};©leetcode
